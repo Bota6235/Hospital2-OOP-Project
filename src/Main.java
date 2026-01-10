@@ -8,8 +8,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        people.add(new Doctor(1, "Dr. Kapi", 56, "+77010000001", "Cardiology"));
-        people.add(new Patient(2, "Sabina", 32, "+77010000002", "Heart attack"));
+        people.add(new Doctor(1, "Dr. Kapi", 56, "+77012007510", "Cardiology"));
+        people.add(new Patient(2, "Sabina", 32, "+77012008227", "Heart attack"));
 
         boolean running = true;
 
