@@ -39,12 +39,12 @@ public class Main {
     }
 
     private static void showMenu() {
-        System.out.println("1. Add Person");
-        System.out.println("2. Add Doctor");
-        System.out.println("3. Add Patient");
-        System.out.println("4. View All (Polymorphic)");
-        System.out.println("5. Demonstrate Polymorphism");
-        System.out.println("6. View Doctors Only");
+        System.out.println("1. Add person");
+        System.out.println("2. Add doctor");
+        System.out.println("3. Add patient");
+        System.out.println("4. View all");
+        System.out.println("5. Demonstrate polymorphism");
+        System.out.println("6. View doctors only");
         System.out.println("0. Exit");
         System.out.print("Choice: ");
     }
