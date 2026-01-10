@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         people.add(new Doctor(1, "Dr. Kapi", 56, "+77010000001", "Cardiology"));
-        people.add(new Patient(2, "Sabina", 32, "+77010000002", "Fever"));
+        people.add(new Patient(2, "Sabina", 32, "+77010000002", "Heart attack"));
 
         boolean running = true;
 

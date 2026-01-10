@@ -61,7 +61,7 @@ public class Person {
     }
 
     public void work() {
-        System.out.println(name + " is in the hospital.");
+        System.out.println(name + " is in the hospital");
     }
 
     public String getRole() {
@@ -74,10 +74,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "[" + getRole() + "] " + name +
-                " (ID: " + id +
-                ", Age: " + age +
-                ", Phone: " + phone + ")";
+        return "(" + getRole() + ") " + name + " (ID: " + id + ", Age: " + age + ", Phone: " + phone + ")";
     }
 }
 

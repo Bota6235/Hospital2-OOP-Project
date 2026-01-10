@@ -2,9 +2,7 @@ public class Doctor extends Person {
 
     private String specialization;
 
-    public Doctor(int id, String name, int age,
-                  String phone, String specialization) {
-
+    public Doctor(int id, String name, int age, String phone, String specialization) {
         super(id, name, age, phone);
         this.specialization = specialization;
     }
@@ -15,8 +13,7 @@ public class Doctor extends Person {
 
     @Override
     public void work() {
-        System.out.println("Doctor " + name +
-                " is treating patients (" + specialization + ").");
+        System.out.println(name + " is treating patients (" + specialization + ")");
     }
 
     @Override
@@ -25,7 +22,7 @@ public class Doctor extends Person {
     }
 
     public void treatPatient() {
-        System.out.println("Doctor " + name + " treats a patient.");
+        System.out.println(name + " treats a patient");
     }
 
     public boolean isSeniorDoctor() {
@@ -34,7 +31,7 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + " | Specialization: " + specialization;
+        return super.toString() + "Specialization: " + specialization;
     }
 }
 
