@@ -26,7 +26,7 @@ public class Patient extends Person {
     }
 
     public boolean isCritical() {
-        return disease.equalsIgnoreCase("Heart attack");
+        return disease != null && disease.equalsIgnoreCase("Heart attack");
     }
 
     @Override

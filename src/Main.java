@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
     private static ArrayList<Person> people = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -15,18 +14,27 @@ public class Main {
 
         while (running) {
             showMenu();
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> addPerson();
-                case 2 -> addDoctor();
-                case 3 -> addPatient();
-                case 4 -> viewAll();
-                case 5 -> demonstratePolymorphism();
-                case 6 -> viewDoctorsOnly();
-                case 0 -> running = false;
-                default -> System.out.println("Invalid choice");
+                switch (choice) {
+                    case 1 -> addDoctor();
+                    case 2 -> addPatient();
+                    case 3 -> viewAll();
+                    case 4 -> demonstratePolymorphism();
+                    case 5 -> viewDoctorsOnly();
+                    case 0 -> running = false;
+                    default -> System.out.println("Invalid choice");
+                }
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Input error: " + e.getMessage());
+                scanner.nextLine();
+
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter numbers only.");
+                scanner.nextLine();
             }
 
             if (running) {
@@ -39,12 +47,11 @@ public class Main {
     }
 
     private static void showMenu() {
-        System.out.println("1. Add person");
-        System.out.println("2. Add doctor");
-        System.out.println("3. Add patient");
-        System.out.println("4. View all");
-        System.out.println("5. Demonstrate polymorphism");
-        System.out.println("6. View doctors only");
+        System.out.println("1. Add doctor");
+        System.out.println("2. Add patient");
+        System.out.println("3. View all");
+        System.out.println("4. Demonstrate polymorphism");
+        System.out.println("5. View doctors only");
         System.out.println("0. Exit");
         System.out.print("Choice: ");
     }
@@ -63,62 +70,92 @@ public class Main {
 
         System.out.print("Phone: ");
         String phone = scanner.nextLine();
-
-        people.add(new Person(id, name, age, phone));
     }
 
     private static void addDoctor() {
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            System.out.print("ID: ");
+            int id = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
 
-        System.out.print("Age: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+            System.out.print("Age: ");
+            int age = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Phone: ");
-        String phone = scanner.nextLine();
+            System.out.print("Phone: ");
+            String phone = scanner.nextLine();
 
-        System.out.print("Specialization: ");
-        String spec = scanner.nextLine();
+            System.out.print("Specialization: ");
+            String spec = scanner.nextLine();
 
-        Person doctor = new Doctor(id, name, age, phone, spec);
-        people.add(doctor);
+            Person doctor = new Doctor(id, name, age, phone, spec);
+            people.add(doctor);
+
+            System.out.println("Doctor added successfully!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Input error: " + e.getMessage());
+        }
     }
 
     private static void addPatient() {
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            System.out.print("ID: ");
+            int id = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
 
-        System.out.print("Age: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+            System.out.print("Age: ");
+            int age = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Phone: ");
-        String phone = scanner.nextLine();
+            System.out.print("Phone: ");
+            String phone = scanner.nextLine();
 
-        System.out.print("Disease: ");
-        String disease = scanner.nextLine();
+            System.out.print("Disease: ");
+            String disease = scanner.nextLine();
 
-        people.add(new Patient(id, name, age, phone, disease));
+            Person patient = new Patient(id, name, age, phone, disease);
+            people.add(patient);
+
+            System.out.println("Patient added successfully!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            scanner.nextLine();
+        }
     }
 
     private static void viewAll() {
         for (Person p : people) {
             System.out.println(p);
+            if (p.isAdult()){
+                System.out.println("Status: Adult");
+            } else {
+                System.out.println("Status: Minor");
+            }
+            if (p instanceof Patient pat) {
+                if (pat.isCritical()) {
+                    System.out.println("Critical condition!!!");
+                }
+            }
         }
     }
 
     private static void demonstratePolymorphism() {
         for (Person p : people) {
             p.work();
+
+            if (p instanceof Doctor d) {
+                d.treatPatient();
+            } else if (p instanceof Patient pat) {
+                pat.takeMedicine();
+            }
         }
     }
 
@@ -127,6 +164,9 @@ public class Main {
             if (p instanceof Doctor) {
                 Doctor d = (Doctor) p;
                 System.out.println(d);
+                System.out.println(
+                        d.isSeniorDoctor() ? "Level: Senior Doctor" : "Level: Junior Doctor"
+                );
             }
         }
     }

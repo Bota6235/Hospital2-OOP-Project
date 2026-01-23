@@ -1,4 +1,4 @@
-public class Person {
+public abstract class Person {
 
     protected int id;
     protected String name;
@@ -12,60 +12,40 @@ public class Person {
         setPhone(phone);
     }
 
-    public int getId() {
-        return id;
-    }
+    public abstract void work();
+    public abstract String getRole();
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getPhone() { return phone; }
 
     public void setId(int id) {
-        if (id > 0) {
-            this.id = id;
-        } else {
-            this.id = 0;
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID must be positive");
         }
+        this.id = id;
     }
 
     public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
-        } else {
-            this.name = "Unknown";
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
         }
+        this.name = name;
     }
 
     public void setAge(int age) {
-        if (age >= 0) {
-            this.age = age;
-        } else {
-            this.age = 0;
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
         }
+        this.age = age;
     }
 
     public void setPhone(String phone) {
-        if (phone != null && phone.contains("+")) {
-            this.phone = phone;
-        } else {
-            this.phone = "Not provided";
+        if (phone == null || !phone.startsWith("+")) {
+            throw new IllegalArgumentException("Phone must start with +");
         }
-    }
-
-    public void work() {
-        System.out.println(name + " is in the hospital");
-    }
-
-    public String getRole() {
-        return "Person";
+        this.phone = phone;
     }
 
     public boolean isAdult() {
@@ -74,7 +54,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "(" + getRole() + ") " + name + " (ID: " + id + ", Age: " + age + ", Phone: " + phone + ")";
+        return "(" + getRole() + ") " + name +
+                " (ID: " + id + ", Age: " + age + ", Phone: " + phone + ") ";
     }
 }
-

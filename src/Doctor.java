@@ -34,4 +34,3 @@ public class Doctor extends Person {
         return super.toString() + "Specialization: " + specialization;
     }
 }
-
