@@ -1,3 +1,7 @@
+package model;
+
+import exception.InvalidInputException;
+
 public abstract class Person {
 
     protected int id;
@@ -28,7 +32,7 @@ public abstract class Person {
     }
 
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         this.name = name;
@@ -43,7 +47,7 @@ public abstract class Person {
 
     public void setPhone(String phone) {
         if (phone == null || !phone.startsWith("+")) {
-            throw new IllegalArgumentException("Phone must start with +");
+            throw new InvalidInputException("Phone must start with +");
         }
         this.phone = phone;
     }

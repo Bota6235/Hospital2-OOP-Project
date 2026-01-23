@@ -1,4 +1,8 @@
-public class Doctor extends Person {
+package model;
+
+import util.Treatable;
+
+public class Doctor extends Person implements Treatable {
 
     private String specialization;
 
@@ -21,7 +25,8 @@ public class Doctor extends Person {
         return "Doctor";
     }
 
-    public void treatPatient() {
+    @Override
+    public void treat(){
         System.out.println(name + " treats a patient");
     }
 

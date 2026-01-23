@@ -1,3 +1,5 @@
+package model;
+
 public class Patient extends Person {
 
     private String disease;
@@ -26,7 +28,7 @@ public class Patient extends Person {
     }
 
     public boolean isCritical() {
-        return disease != null && disease.equalsIgnoreCase("Heart attack");
+        return disease.equalsIgnoreCase("Heart attack");
     }
 
     @Override
