@@ -17,53 +17,52 @@ public class MenuManager implements Menu {
     }
 
     @Override
-    public void displayMenu() {
+    public void displayMenu (){
         System.out.println("""
                 1. Add doctor
                 2. Add patient
-                3. View all
+                3. View All
                 4. Polymorphism demo
-                0. Exit 
+                0. Exit
                 """);
-        System.out.print("Choice: ");
+        System.out.println("Choice: ");
     }
 
     @Override
     public void run() {
-        boolean running = true;
+       boolean running = true;
+       while (running) {
+           displayMenu();
+           try {
+               int choice = scanner.nextInt();
+               scanner.nextLine();
 
-        while (running) {
-            displayMenu();
-            try {
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+               switch (choice) {
+                   case 1 -> addDoctor();
+                   case 2 -> addPatient();
+                   case 3 -> viewAll();
+                   case 4 -> polymorphismDemo();
+                   case 0 -> running = false;
+                   default -> System.out.println("Invalid choice");
+               }
 
-                switch (choice) {
-                    case 1 -> addDoctor();
-                    case 2 -> addPatient();
-                    case 3 -> viewAll();
-                    case 4 -> polymorphismDemo();
-                    case 0 -> running = false;
-                    default -> System.out.println("Invalid choice");
-                }
-
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                scanner.nextLine();
-            }
-        }
+           } catch (Exception e) {
+               System.out.println("Error: " + e.getMessage());
+               scanner.nextLine();
+           }
+       }
     }
 
     private void addDoctor() {
-        System.out.print("ID: ");
+        System.out.println("ID: ");
         int id = scanner.nextInt(); scanner.nextLine();
-        System.out.print("Name: ");
+        System.out.println("Name: ");
         String name = scanner.nextLine();
-        System.out.print("Age: ");
+        System.out.println("Age: ");
         int age = scanner.nextInt(); scanner.nextLine();
-        System.out.print("Phone: ");
+        System.out.println("Phone: ");
         String phone = scanner.nextLine();
-        System.out.print("Specialization: ");
+        System.out.println("Specialization: ");
         String spec = scanner.nextLine();
 
         people.add(new Doctor(id, name, age, phone, spec));
@@ -87,11 +86,10 @@ public class MenuManager implements Menu {
     private void viewAll() {
         people.forEach(System.out::println);
     }
-
     private void polymorphismDemo() {
-        for (Person p : people) {
+        for (Person p : people){
             p.work();
-            if (p instanceof Treatable t) {
+            if (p instanceof Treatable t){
                 t.treat();
             }
         }
