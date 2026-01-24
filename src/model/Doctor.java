@@ -11,13 +11,9 @@ public class Doctor extends Person implements Treatable {
         this.specialization = specialization;
     }
 
-    public String getSpecialization(){
-        return specialization;
-    }
-
     @Override
     public void work() {
-        System.out.println(name + " is treating patients (" + specialization + ")");
+       System.out.println(name + " is treating patients (" + specialization + ")");
     }
 
     @Override

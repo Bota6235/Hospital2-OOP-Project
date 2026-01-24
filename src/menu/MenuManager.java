@@ -31,26 +31,26 @@ public class MenuManager implements Menu {
     @Override
     public void run() {
        boolean running = true;
-       while (running) {
-           displayMenu();
-           try {
-               int choice = scanner.nextInt();
-               scanner.nextLine();
+        while(running){
+            displayMenu();
 
-               switch (choice) {
-                   case 1 -> addDoctor();
-                   case 2 -> addPatient();
-                   case 3 -> viewAll();
-                   case 4 -> polymorphismDemo();
-                   case 0 -> running = false;
-                   default -> System.out.println("Invalid choice");
-               }
+            try{
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-           } catch (Exception e) {
-               System.out.println("Error: " + e.getMessage());
-               scanner.nextLine();
-           }
-       }
+                switch(choice){
+                    case 1 -> addDoctor();
+                    case 2 -> addPatient();
+                    case 3 -> viewAll();
+                    case 4 -> polymorphismDemo();
+                    case 0 -> running = false;
+                    default -> System.out.println("Invalid choice");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                scanner.nextLine();
+            }
+        }
     }
 
     private void addDoctor() {

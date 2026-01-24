@@ -19,11 +19,6 @@ public abstract class Person {
     public abstract void work();
     public abstract String getRole();
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public int getAge() { return age; }
-    public String getPhone() { return phone; }
-
     public void setId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("ID must be positive");
@@ -32,33 +27,28 @@ public abstract class Person {
     }
 
     public void setName(String name) {
-        if (name == null || name.isBlank()) {
+        if (name == null || name.isBlank()){
             throw new IllegalArgumentException("Name cannot be empty");
         }
         this.name = name;
     }
 
     public void setAge(int age) {
-        if (age < 0) {
+        if (age < 0){
             throw new IllegalArgumentException("Age cannot be negative");
         }
         this.age = age;
     }
 
     public void setPhone(String phone) {
-        if (phone == null || !phone.startsWith("+")) {
-            throw new InvalidInputException("Phone must start with +");
+        if (phone == null || !phone.startsWith("+")){
+            throw new InvalidInputException("Phone number must start with '+'");
         }
         this.phone = phone;
     }
 
-    public boolean isAdult() {
-        return age >= 18;
-    }
-
     @Override
     public String toString() {
-        return "(" + getRole() + ") " + name +
-                " (ID: " + id + ", Age: " + age + ", Phone: " + phone + ") ";
+        return "(" + getRole() + ") " + name + " (ID: " + id + ", Age: " + age + ", Phone: " + phone + ") ";
     }
 }
