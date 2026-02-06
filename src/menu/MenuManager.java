@@ -1,95 +1,126 @@
 package menu;
 
-import model.*;
+import database.PatientDAO;
+import model.Patient;
 import util.Treatable;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuManager implements Menu {
 
-    private ArrayList<Person> people = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
-
-    public MenuManager() {
-        people.add(new Doctor(1, "Dr. Kapi", 56, "+77012007510", "Cardiology"));
-        people.add(new Patient(2, "Sabina", 32, "+77012008227", "Heart attack"));
-    }
+    private final Scanner scanner = new Scanner(System.in);
+    private final PatientDAO patientDAO = new PatientDAO();
 
     @Override
-    public void displayMenu (){
+    public void displayMenu() {
         System.out.println("""
-                1. Add doctor
-                2. Add patient
-                3. View All
-                4. Polymorphism demo
+                Hospital Menu
+                1. Add patient
+                2. View all patients
+                3. Update patient
+                4. Delete patient
+                5. Search patient by name
+                6. Polymorphism demo
                 0. Exit
                 """);
-        System.out.println("Choice: ");
+        System.out.print("Choice: ");
     }
 
     @Override
     public void run() {
-       boolean running = true;
-        while(running){
+        boolean running = true;
+
+        while (running) {
             displayMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-            try{
-                int choice = scanner.nextInt();
-                scanner.nextLine();
-
-                switch(choice){
-                    case 1 -> addDoctor();
-                    case 2 -> addPatient();
-                    case 3 -> viewAll();
-                    case 4 -> polymorphismDemo();
-                    case 0 -> running = false;
-                    default -> System.out.println("Invalid choice");
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                scanner.nextLine();
+            switch (choice) {
+                case 1 -> addPatient();
+                case 2 -> viewPatients();
+                case 3 -> updatePatient();
+                case 4 -> deletePatient();
+                case 5 -> searchPatient();
+                case 6 -> polymorphismDemo();
+                case 0 -> running = false;
+                default -> System.out.println("Invalid option");
             }
         }
     }
 
-    private void addDoctor() {
-        System.out.println("ID: ");
-        int id = scanner.nextInt(); scanner.nextLine();
-        System.out.println("Name: ");
-        String name = scanner.nextLine();
-        System.out.println("Age: ");
-        int age = scanner.nextInt(); scanner.nextLine();
-        System.out.println("Phone: ");
-        String phone = scanner.nextLine();
-        System.out.println("Specialization: ");
-        String spec = scanner.nextLine();
-
-        people.add(new Doctor(id, name, age, phone, spec));
-    }
-
     private void addPatient() {
-        System.out.print("ID: ");
-        int id = scanner.nextInt(); scanner.nextLine();
         System.out.print("Name: ");
         String name = scanner.nextLine();
         System.out.print("Age: ");
         int age = scanner.nextInt(); scanner.nextLine();
         System.out.print("Phone: ");
         String phone = scanner.nextLine();
-        System.out.print("Disease: ");
+        System.out.print("Diagnosis: ");
+        String diagnosis = scanner.nextLine();
+
+        Patient patient = new Patient(0, name, age, phone, diagnosis);
+        patientDAO.insertPatient(patient);
+    }
+
+    private void viewPatients() {
+        List<Patient> patients = patientDAO.getAllPatients();
+        patients.forEach(System.out::println);
+    }
+
+    private void updatePatient() {
+        System.out.print("Enter patient ID: ");
+        int id = scanner.nextInt(); scanner.nextLine();
+
+        Patient existing = patientDAO.getPatientById(id);
+        if (existing == null) {
+            System.out.println("Patient not found");
+            return;
+        }
+
+        System.out.print("New name [" + existing.getName() + "]: ");
+        String name = scanner.nextLine();
+        if (name.isBlank()) name = existing.getName();
+
+        System.out.print("New age [" + existing.getAge() + "]: ");
+        String ageInput = scanner.nextLine();
+        int age = ageInput.isBlank() ? existing.getAge() : Integer.parseInt(ageInput);
+
+        System.out.print("New diagnosis [" + existing.getDisease() + "]: ");
         String disease = scanner.nextLine();
+        if (disease.isBlank()) disease = existing.getDisease();
 
-        people.add(new Patient(id, name, age, phone, disease));
+        Patient updated = new Patient(id, name, age, existing.getPhone(), disease);
+        patientDAO.updatePatient(updated);
     }
 
-    private void viewAll() {
-        people.forEach(System.out::println);
+    private void deletePatient() {
+        System.out.print("Enter patient ID: ");
+        int id = scanner.nextInt(); scanner.nextLine();
+
+        Patient patient = patientDAO.getPatientById(id);
+        if (patient == null) {
+            System.out.println("Patient not found");
+            return;
+        }
+
+        System.out.println(patient);
+        System.out.print("Are you sure? (yes/no): ");
+        if (scanner.nextLine().equalsIgnoreCase("yes")) {
+            patientDAO.deletePatient(id);
+        }
     }
+
+    private void searchPatient() {
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        patientDAO.searchByName(name).forEach(System.out::println);
+    }
+
     private void polymorphismDemo() {
-        for (Person p : people){
+        for (Patient p : patientDAO.getAllPatients()) {
             p.work();
-            if (p instanceof Treatable t){
+            if (p instanceof Treatable t) {
                 t.treat();
             }
         }

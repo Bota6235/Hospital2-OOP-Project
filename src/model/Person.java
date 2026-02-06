@@ -10,41 +10,29 @@ public abstract class Person {
     protected String phone;
 
     public Person(int id, String name, int age, String phone) {
-        setId(id);
-        setName(name);
-        setAge(age);
-        setPhone(phone);
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.phone = phone;
     }
 
     public abstract void work();
     public abstract String getRole();
 
-    public void setId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID must be positive");
-        }
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        if (name == null || name.isBlank()){
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
-    public void setAge(int age) {
-        if (age < 0){
-            throw new IllegalArgumentException("Age cannot be negative");
-        }
-        this.age = age;
+    public int getAge() {
+        return age;
     }
 
-    public void setPhone(String phone) {
-        if (phone == null || !phone.startsWith("+")){
-            throw new InvalidInputException("Phone number must start with '+'");
-        }
-        this.phone = phone;
+    public String getPhone() {
+        return phone;
     }
 
     @Override
