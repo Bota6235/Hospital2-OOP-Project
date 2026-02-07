@@ -3,19 +3,16 @@ package database;
 import model.Patient;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PatientDAO {
 
     public void insertPatient(Patient p) {
         String sql = """
                 INSERT INTO patient (name, age, diagnosis, admission_date)
-                VALUES (?, ?, ?, CURRENT_DATE)
+                VALUES (?, ?, ?, CURRENT_DATE);
                 """;
-
         try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        PreparedStatement ps = con.prepareStatement(sql)){
 
             ps.setString(1, p.getName());
             ps.setInt(2, p.getAge());
@@ -24,33 +21,39 @@ public class PatientDAO {
 
             System.out.println("Patient inserted");
 
-        } catch (SQLException e) {
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public List<Patient> getAllPatients() {
-        List<Patient> list = new ArrayList<>();
+    public void printAllPatients() {
         String sql = "SELECT * FROM patient";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
+            boolean found = false;
+
             while (rs.next()) {
-                list.add(new Patient(
-                        rs.getInt("patient_id"),
-                        rs.getString("name"),
-                        rs.getInt("age"),
-                        rs.getString("diagnosis")
-                ));
+                found = true;
+                System.out.println(
+                        "(" + rs.getInt("patient_id") + ") " +
+                                rs.getString("name") +
+                                ", Age: " + rs.getInt("age") +
+                                ", Diagnosis: " + rs.getString("diagnosis")
+                );
+            }
+
+            if (!found) {
+                System.out.println("No patients found");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
     }
+
 
     public Patient getPatientById(int id) {
         String sql = "SELECT * FROM patient WHERE patient_id=?";
@@ -63,16 +66,15 @@ public class PatientDAO {
 
             if (rs.next()) {
                 return new Patient(
+
                         rs.getInt("patient_id"),
                         rs.getString("name"),
                         rs.getInt("age"),
-                        rs.getString("diagnosis")
-                );
+                        rs.getString("diagnosis") );
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            e.printStackTrace(); }
+
         return null;
     }
 
@@ -118,8 +120,7 @@ public class PatientDAO {
         }
     }
 
-    public List<Patient> searchByName(String name) {
-        List<Patient> list = new ArrayList<>();
+    public void searchByName(String name) {
         String sql = "SELECT * FROM patient WHERE name ILIKE ?";
 
         try (Connection con = DatabaseConnection.getConnection();
@@ -128,18 +129,24 @@ public class PatientDAO {
             ps.setString(1, "%" + name + "%");
             ResultSet rs = ps.executeQuery();
 
+            boolean found = false;
+
             while (rs.next()) {
-                list.add(new Patient(
-                        rs.getInt("patient_id"),
-                        rs.getString("name"),
-                        rs.getInt("age"),
-                        rs.getString("diagnosis")
-                ));
+                found = true;
+                System.out.println(
+                        "(" + rs.getInt("patient_id") + ") " +
+                                rs.getString("name") +
+                                ", Age: " + rs.getInt("age") +
+                                ", Diagnosis: " + rs.getString("diagnosis")
+                );
+            }
+
+            if (!found) {
+                System.out.println("No matching patients found");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
     }
 }
