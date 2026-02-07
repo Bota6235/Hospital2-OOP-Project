@@ -2,37 +2,24 @@ package model;
 
 public class Patient extends Person {
 
-    private String disease;
+    private String diagnosis;
 
-    public Patient(int id, String name, int age, String phone, String disease) {
-        super(id, name, age, phone);
-        this.disease = disease;
+    public Patient(int id, String name, int age, String diagnosis) {
+        super(id, name, age, diagnosis);
+        this.diagnosis = (diagnosis == null) ? "" : diagnosis;
     }
 
-    public String getDisease() {
-        return disease;
+    public String getDiagnosis() {
+        return diagnosis;
     }
 
     @Override
     public void work() {
-        System.out.println("Patient " + name + " is receiving treatment for " + disease);
+        System.out.println("Patient " + name + " is getting treatment for " + diagnosis);
     }
 
     @Override
     public String getRole() {
         return "Patient";
-    }
-
-    public void takeMedicine() {
-        System.out.println("Patient " + name + " takes medicine");
-    }
-
-    public boolean isCritical() {
-        return disease.equalsIgnoreCase("Heart attack");
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "Disease: " + disease;
     }
 }

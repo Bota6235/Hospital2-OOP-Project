@@ -1,13 +1,11 @@
 package model;
 
-import util.Treatable;
-
 public class Doctor extends Person implements Treatable {
 
-    private String specialization;
+    private final String specialization;
 
-    public Doctor(int id, String name, int age, String phone, String specialization){
-        super(id, name, age, phone);
+    public Doctor(int id, String name, int age, String specialization){
+        super(id, name, age, specialization);
         this.specialization = specialization;
     }
 
